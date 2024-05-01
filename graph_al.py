@@ -66,6 +66,10 @@ class Graph_AL:
                 edges_list.append((vertex, node))
         
         return edges_list
+    
+    def get_neighbours(self, node):
+        if node in self.adjacencyList:
+            return self.adjacencyList[node].keys().tolist()
 
 
 
@@ -90,6 +94,7 @@ gra.add_edge(n2, n3)
 gra.add_edge(n3, n6)
 
 print(gra.get_edges())
+print(gra.get_neighbours(n1))
 # print(gra.get_vertices())
 # print(gra.adjacencyList.keys())
 # # print(gra.adjacencyList)
