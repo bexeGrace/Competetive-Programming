@@ -69,7 +69,15 @@ class Graph_AL:
     
     def get_neighbours(self, node):
         if node in self.adjacencyList:
-            return self.adjacencyList[node].keys().tolist()
+            return list(self.adjacencyList[node].keys())
+        
+    def get_edge_weight(self, start: Graph_Node, end: Graph_Node):
+        if start in self.adjacencyList:
+            if end in self.adjacencyList[start]:
+                return self.adjacencyList[start][end][1]
+
+    def BFS(self, start: Graph_Node, end: Graph_Node):
+        pass
 
 
 
@@ -95,6 +103,7 @@ gra.add_edge(n3, n6)
 
 print(gra.get_edges())
 print(gra.get_neighbours(n1))
+print(gra.get_edge_weight(n1, n2))
 # print(gra.get_vertices())
 # print(gra.adjacencyList.keys())
 # # print(gra.adjacencyList)
