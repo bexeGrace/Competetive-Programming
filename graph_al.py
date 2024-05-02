@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Graph_Node:
     def __init__(self, data):
         self.data = data
@@ -77,8 +80,53 @@ class Graph_AL:
                 return self.adjacencyList[start][end][1]
 
     def BFS(self, start: Graph_Node, end: Graph_Node):
-        pass
+        frontier = deque([start])
+        reached = {start: None}
 
+        if start == end:
+            return start
+        
+
+        while len(frontier) > 0:
+            node = frontier.popleft()
+            for child in self.adjacencyList[node]:
+                if child == end:
+                    reached[child] = node
+                    solution = deque([child])
+                    parent = reached[child]
+                    while parent is not None:
+                        solution.appendleft(parent)
+                        parent = reached[parent]
+                    return list(solution)
+                if child not in reached:
+                    # print(child, node, reached)
+                    reached[child] = node
+                    frontier.append(child)
+            
+        return None
+    
+    def DFS(self, start: Graph_Node, end: Graph_Node):
+        reached = {start: None} 
+
+        def dfs_recursive(node):
+            for child in self.adjacencyList[node]:
+                if child not in reached:
+                    if child == end:
+                        reached[child] = node
+                        print(reached)
+                        solution = deque([child])
+                        parent = reached[child]
+                        while parent is not None:
+                            solution.appendleft(parent)
+                            parent = reached[parent]
+                        return list(solution)
+                    reached[child] = node
+                    return dfs_recursive(child)
+
+        return dfs_recursive(start)       
+        
+
+       
 
 
 n1 = Graph_Node("betse")
@@ -101,12 +149,14 @@ gra.add_edge(n1, n3)
 gra.add_edge(n2, n3)
 gra.add_edge(n3, n6)
 
-print(gra.get_edges())
-print(gra.get_neighbours(n1))
-print(gra.get_edge_weight(n1, n2))
+# print(gra.get_edges())
+# print(gra.get_neighbours(n1))
+# print(gra.get_edge_weight(n1, n2))
+
+print(gra.DFS(n1, n6))
 # print(gra.get_vertices())
 # print(gra.adjacencyList.keys())
-# # print(gra.adjacencyList)
+print(gra.adjacencyList)
 
 # gra.remove_vertex(n3)
 # print(gra.adjacencyList)
