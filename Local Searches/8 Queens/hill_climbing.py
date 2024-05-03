@@ -9,22 +9,21 @@ class Table:
             self.table.append(row)
 
     def generate_random(self):
-        generated = set()
+        generated = []
         for i in range(8):
             row = random.randint(0, 7)
             col = random.randint(0, 7)
             while (row, col) in generated:
                 row = random.randint(0, 7)
                 col = random.randint(0, 7)
-            generated.add((row, col))
+            generated.append((row, col))
         return generated
 
 
 
 class Queens_8: 
     def __init__(self, init_state):
-        self.state = init_state
-        self.neghibours = []
+        self.init_state = init_state
 
     def objective_function(self, state):
         rows = set()
@@ -44,18 +43,49 @@ class Queens_8:
         return count
 
 
-    def generate_neghibors(self, state):
-        pass
+    def generate_neghibors(self, state: list):
+        neghibors = []
+        for i in range(len(state)):
+            temp = state
+            for j in range(len(state)):
+                row, col = state[j]
+                temp[j] = (row, (col + 1)%7)
+            neghibors.append(temp)
+        
+        return neghibors
 
-    def hill_climbing(self, init_state):
-        pass
+
+    def hill_climbing(self, state, prev = None):
+        print(state, 'is')
+        neghibors = self.generate_neghibors(state)
+
+        curr = state
+        for c_state in neghibors:
+            val = self.objective_function(c_state)
+            if val < self.objective_function(curr):
+                curr = c_state
+
+        if curr == prev:
+            if curr == 0:
+                return curr, "Succesful"
+            return curr, 'Failed'
+        
+        
+        print(curr,curr == state, prev, self.objective_function(curr))
+        
+        return self.hill_climbing(curr, state)
+        
+        
+            
 
     
 
 tb = Table()
 i_s = tb.generate_random()
 gm = Queens_8(i_s)
-print(gm.objective_function(i_s), i_s)
+# print(gm.objective_function(i_s), i_s)
+# print(gm.generate_neghibors(i_s), i_s)
+print(gm.hill_climbing(i_s), i_s)
 # print(tb.table)
         
         
