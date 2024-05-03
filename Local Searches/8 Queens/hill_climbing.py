@@ -10,13 +10,22 @@ class Table:
 
     def generate_random(self):
         generated = []
-        for i in range(8):
+        rows = []
+        cols = []
+
+        while len(rows) != 8:
             row = random.randint(0, 7)
+            if row not in rows:
+                rows.append(row)
+
+        while len(cols )!= 8:
             col = random.randint(0, 7)
-            while (row, col) in generated:
-                row = random.randint(0, 7)
-                col = random.randint(0, 7)
-            generated.append((row, col))
+            if col not in cols:
+                cols.append(col)
+
+        for i in range(len(rows)):
+            generated.append((rows[i], cols[i]))
+
         return generated
 
 
@@ -46,20 +55,23 @@ class Queens_8:
     def generate_neghibors(self, state: list):
         neghibors = []
         for i in range(len(state)):
-            temp = state
             for j in range(len(state)):
+                temp = state.copy()
                 row, col = state[j]
-                temp[j] = (row, (col + 1)%7)
-            neghibors.append(temp)
+                temp[j] = (row, (col + 1)%8)
+                if temp not in neghibors:
+                    neghibors.append(temp)
+
+       
         
         return neghibors
 
 
     def hill_climbing(self, state, prev = None):
-        print(state, 'is')
         neghibors = self.generate_neghibors(state)
 
         curr = state
+        # print(neghibors)
         for c_state in neghibors:
             val = self.objective_function(c_state)
             if val < self.objective_function(curr):
@@ -68,10 +80,9 @@ class Queens_8:
         if curr == prev:
             if curr == 0:
                 return curr, "Succesful"
-            return curr, 'Failed'
+            return curr, 'Failed', self.objective_function(curr)
         
         
-        print(curr,curr == state, prev, self.objective_function(curr))
         
         return self.hill_climbing(curr, state)
         
