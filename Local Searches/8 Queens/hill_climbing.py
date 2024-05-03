@@ -17,15 +17,32 @@ class Table:
                 row = random.randint(0, 7)
                 col = random.randint(0, 7)
             generated.add((row, col))
-            self.table[row][col] = 1
-        return self.table
+        return generated
 
 
 
 class Queens_8: 
-    def __init__(self, init_state: Table):
-        self.init_state = init_state
+    def __init__(self, init_state):
+        self.state = init_state
         self.neghibours = []
+
+    def objective_function(self, state):
+        rows = set()
+        cols = set()
+        count = 0
+        for row, col in state:
+            rows.add(row)
+            cols.add(col)
+            for row2, col2 in state:
+                delta_row = abs(row - row2)
+                delta_col = abs(col - col2)
+                if delta_row == delta_col:
+                    count += 1
+        count += len(state) - len(rows)
+        count += len(state) - len(cols)
+
+        return count
+
 
     def generate_neghibors(self, state):
         pass
@@ -36,7 +53,9 @@ class Queens_8:
     
 
 tb = Table()
-print(tb.generate_random())
+i_s = tb.generate_random()
+gm = Queens_8(i_s)
+print(gm.objective_function(i_s), i_s)
 # print(tb.table)
         
         
