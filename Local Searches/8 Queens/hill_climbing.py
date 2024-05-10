@@ -1,6 +1,8 @@
 import random
 import copy
 
+from simulated_annealing import simulated_annealing 
+
 class Table:
     def __init__(self, size = 8):
         self.size = size
@@ -115,7 +117,14 @@ class Queens_8:
                 else:
                     curr = Table.generate_random(Table)
                     prev = None
-            
+
+
+    def simulated_annealing(self, temperature=100, cooling_rate=0.99, max_iterations=1000):
+        best_solution, best_energy, i = simulated_annealing(Table.generate_random(Table), self.objective_function, self.generate_neighbors, temperature, cooling_rate, max_iterations)
+        print("Best Solution:", best_solution)
+        print("Best Energy:", best_energy)
+        print('Max iteration: ', i)
+                    
         
         
         
@@ -126,12 +135,13 @@ class Queens_8:
 tb = Table()
 i_s = tb.generate_random()
 gm = Queens_8(i_s)
-a= gm.objective_function([(1, 5), (6, 1), (4, 4), (0, 2), (2, 7), (7, 3), (3, 0), (5, 6)])
-print(a)
+# a= gm.objective_function([(1, 5), (6, 1), (4, 4), (0, 2), (2, 7), (7, 3), (3, 0), (5, 6)])
+# print(a)
 # print(tb.generate_successors(i_s))
 # print(gm.objective_function(i_s), i_s)
 # print(gm.generate_neghibors(i_s), i_s)
-print(gm.hill_climbing(i_s), i_s)
+# print(gm.hill_climbing(i_s), i_s)
+gm.simulated_annealing()
 # print(tb.table)
         
         
