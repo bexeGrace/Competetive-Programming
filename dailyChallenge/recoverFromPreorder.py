@@ -31,3 +31,12 @@ class Solution:
                 self.level += 1
                 self.idx += 1
             self.helper(node, lvl + 1)
+
+
+def increment(x, y):
+    return
+
+
+var = 5
+print(increment(var, 5))
+print(var)
