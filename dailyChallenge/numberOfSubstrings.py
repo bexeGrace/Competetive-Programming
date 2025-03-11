@@ -1,0 +1,26 @@
+def numberOfSubstrings(s: str) -> int:
+    count = {'a': 0, 'b': 0, 'c': 0}
+    left = 0
+    total_substrings = 0
+    
+    # Slide the right pointer across the string
+    for right in range(len(s)):
+        # Add the current character to the count
+        if s[right] in count:
+            count[s[right]] += 1
+        
+        # Shrink the window while it contains at least one 'a', 'b', and 'c'
+        while count['a'] > 0 and count['b'] > 0 and count['c'] > 0:
+            # All substrings starting from left to any point >= right are valid
+            total_substrings += len(s) - right
+            # Shrink the window by moving left pointer
+            if s[left] in count:
+                count[s[left]] -= 1
+            left += 1
+    
+    return total_substrings
+
+print(numberOfSubstrings("abcabc")) # 10
+print(numberOfSubstrings("aaaa")) # 0
+print(numberOfSubstrings("abc")) # 1
+print(numberOfSubstrings("cbcbbbcbacaaaabbbacbbbbbcbbcabacaccbbabbaccbbbbbbcabcbbacacbbacbcbbccbaacccbbcbcbcccacaccacacabaaacbaacbacacbcaaacbaacbcabacbcbaaacaacbabcbccabcbbccbacaaabbcabcbbacbbcabccaccccabcacbacabbaababbcacccccbbbccabacabbccabcccaaccabccacaccbcccbbcccbcaacbacbcabcacccacccacacacbcbacabcbabaaabbbabbbbbabacaabbbcbcaaaacabcccbcaacbbcabcbabccbabaaccbcabcbbbaabaaaabcacaaacbbbccbaccbbaaccaabcbcbbcacaaabbaacbaabacccbcbbaabbbaaccbccaacbcbbcbbbbbaaccbabcbacbcacbbcbabacacbbbccaccbcababbacbccbabbcccbaacaababcacbbabaacbbbacbbbbccbbbacbaccbababcaabcccababcbaacbacccbaaacbcbccbcbbbaabbacbbcabcbacbcbcaabcabaccbbccacaabbccacacacbabcbcccabccaabaaacbaacaaabbcccbbcbcacbbbacbbabcbacbbbcbcbbababcbcaaacccababcccacbccabcccbabbbbbccbbccbcaacccababcbcabacbccaacbaccaaacabaaccaccaaacccacbbabacbcbccabbaaabcccacabbbacaaabaabaccbbacacbcabaabbaaabcccacacacbacaccccbccbacccbbbcbacabbbccabccccbccaccbccaacaaacaabcbbacacaccbacbcabbabbccacbbabcabababbbcaababbabccbbacbabcbaccbaaaacaabbacaabbccabccccaaaccacacbbacbaccbabbccccbcabcabbaaccbcbccbbcabbbbccabacaaacabcbacccacababababccacacaaccacaaccabcaccbcacacabbcacabcababcbacaababaccaccbbbbbbabcccbbcacbccacbabcbacbbccbabbacbabbcbaaabbacbbbbbccababacaacacbccabbbcbaaccaabaaaccccbccccaaabaaacaaaabbbbccabccaacabcaacbaacacbcbbccaaabacccbabaaccccababbabaacaccacbbabbcbaabacbbbcaabaabcbccccaabbcbccaaaccbbbcaaaabbababacbccacaccaaccccbbabbcbcabaaaacccacccbaacccabcacbcbccccaacbcbaccacccccbbcaabbaacbcbbabacaababaacccbcaabccbccbababbcccaababbabbaaababcbcbcbaaaccbaaacaacccaabbccbaaacbbcbccbacaabbcaabaccbbacacabacccaaacacacabcabcccbccbabbabbaacaaabbcccaccbabbcbbccacccbabbaccbbcabccbaaccccbacaaaaaaaacbcbaccbaacbbccacbbaccacaccbcbbbbaacccaabbbcccacaabbacaabcbbbbbacbabacbbbaccabbaccabaccbaabaaaaccbcbacacccacbcacbcbcaaacacbcbacacaaacaabbbccbcbbccbccacbbbbacbbaccaabbbbbabaccbaaacacbaaacbaabaaccaacbbcabcbbbacbbccabaaabcabbbacbaacccaabaacccaccbaaccaacccabaacccccbcacaabacababbcbccabbabccbcccaabababbbaaabaaacaaacbbaabaaacbcabbbbacacbbbacaaccbbaabaacacccbabbbbcacbcacabacaacabcccacccbbcacabaaccaacbbaabcbcbcabaccbbabcbbcbcbcaccabcccabacaaaccbcccacababacabbacbabbbbbbcbcccccabababaabbcabbacaaacbabbaacacccaaabcbcbbcbbabbbcbccacabcbaccbacbccaabacacbacbbbbbcbabbbbacabcbcbababbcccacccaabacccabbbccbccaccaaaaabbccccbbcacbaccaabccbbcaaaabbabccbbccabbbcacacccababaaccbbbbababacaccbbaabbbaaabbacbbacaaabcbccacbaaaabcbbbbbccbcabcbbbbaacbcccbaaccabccbbbcabaccaabcbacabaccbccacbbbcbbcccbbbacaccacacabaaacacbcabcbaaacbaaccbbccabaacaaaaacaaccaabcabbccbbcccbcacbcbaaaaccccbcabcbaccbabaabbaccbacaacacacbbabcabbbcccaccacacabbaababbbbabbbccbacabcbaabbaabbaabacacabaabbbacbcbaaccccbacbaabaacaababcccabbbbaaabacccbbcbaaccacaaabcbcabaacaaaaccacabbcccbccaabaccacabcabcbbaaacaaccbaabcbcbcacbacaabaacbbaababacabbabcbbaaabcbabacbcabbacaaacbabbbbabbbaacacbbabccbabaaaacaacbcccabbcbcababbbacacabbcacabcabcabcbaaaabbbabcabbcbbaabbbbccaaaacabbcacccabccbacabbccbbacabcabcabacabbcbbcbabbaaacacabcbacbbaaaacababacaacccbccabccaaabbbabaaacaababbbbcbabbbbaaaccababbbccaabbaacabcabbbcbabbbbaabcaacacbcbbacbcccaccbaaaabaccbbcabaacbccccaacbbcaabbcbaabbababbbcabaccacbabbbbbbbcbbcabccbbababbaacbaccbcabbaccbabcbabbacacbcabbabbaccbbccaccaabacaaababaabcbcbabacbcabbccabccbbabbccbbababbcbbaabcbcbbcbaa")) # 10
